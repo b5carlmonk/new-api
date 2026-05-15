@@ -63,8 +63,18 @@ export function ConfirmDialog({
     onConfirm();
   };
 
+  // Close dialog on Escape key is handled natively by Radix Dialog,
+  // but we also want Cancel to fire when the overlay is clicked.
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (!nextOpen && !loading) {
+      handleCancel();
+    } else {
+      onOpenChange(nextOpen);
+    }
+  };
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
